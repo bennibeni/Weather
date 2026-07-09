@@ -1,0 +1,26 @@
+{
+  "name": "weather-mcp-vercel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Weather MCP server (NWS alerts + forecast) deployed as a Next.js app on Vercel using mcp-handler.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc --noEmit",
+    "test-client": "node scripts/test-client.mjs"
+  },
+  "dependencies": {
+    "mcp-handler": "^1.0.5",
+    "next": "^15.2.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.26.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}
