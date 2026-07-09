@@ -1,13 +1,11 @@
-import "./globals.css";
-
 export const metadata = {
   title: "Weather MCP Server",
-  description: "Server MCP che espone allerte meteo e previsioni USA (National Weather Service) via Streamable HTTP.",
+  description: "MCP server exposing US weather alerts and forecasts (National Weather Service) over Streamable HTTP.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );
