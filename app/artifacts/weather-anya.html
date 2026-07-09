@@ -4,7 +4,6 @@
   <div id="status" style="font-size: 14px; color: #8a8f98;">Loading…</div>
   <div id="result" style="margin-top: 12px; font-size: 15px; line-height: 1.6; white-space: pre-wrap;"></div>
 </div>
-
 <script>
 async function fetchWeather() {
   const statusEl = document.getElementById('status');
@@ -31,31 +30,24 @@ async function fetchWeather() {
         ]
       })
     });
-
     if (!response.ok) {
       throw new Error("Request failed: " + response.status);
     }
-
     const data = await response.json();
-
     const textBlocks = (data.content || [])
       .filter(item => item.type === "text")
       .map(item => item.text)
       .join("\n\n");
-
     const toolCalls = (data.content || []).filter(item => item.type === "mcp_tool_use");
     const toolResults = (data.content || []).filter(item => item.type === "mcp_tool_result");
-
     statusEl.textContent = toolCalls.length
       ? "Fetched via " + (toolCalls[0].name || "connector")
       : "Response received";
-
     resultEl.textContent = textBlocks || (toolResults[0]?.content?.[0]?.text) || "No response text returned.";
   } catch (err) {
     statusEl.textContent = "Error";
     resultEl.textContent = String(err.message || err);
   }
 }
-
 fetchWeather();
 </script>
