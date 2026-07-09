@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CITIES_BY_STATE } from "../lib/cities";
 
 export default function Home() {
@@ -10,15 +10,21 @@ export default function Home() {
   const [alertsError, setAlertsError] = useState<string | null>(null);
 
   const cities = CITIES_BY_STATE[state] ?? [];
-  const [cityIndex, setCityIndex] = useState(0);
-  const [customLat, setCustomLat] = useState("");
-  const [customLon, setCustomLon] = useState("");
+  const [cityIndex, setCityIndex] = useState(-1);
+  const [customLat, setCustomLat] = useState("44.61");
+  const [customLon, setCustomLon] = useState("-67.51");
   const [forecastText, setForecastText] = useState<string | null>(null);
   const [forecastLoading, setForecastLoading] = useState(false);
   const [forecastError, setForecastError] = useState<string | null>(null);
 
-  // Reset the selected city whenever the state changes.
+  // Reset the selected city whenever the state changes (but not on the initial mount,
+  // so the default custom coordinates for 44.61°N, 67.51°W stay selected on load).
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     setCityIndex(0);
   }, [state]);
 
