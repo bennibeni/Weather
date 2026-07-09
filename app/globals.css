@@ -1,23 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 :root {
-  --bg:        #0d1117;
-  --surface:   #161b22;
-  --border:    #2d333b;
-  --ink:       #cdd9e5;
-  --ink-dim:   #7d8590;
-  --accent:    #58a6ff;
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #2d333b;
+  --ink: #cdd9e5;
+  --ink-dim: #7d8590;
+  --accent: #58a6ff;
 }
 
-* { box-sizing: border-box; }
-html { background: var(--bg); }
+* {
+  box-sizing: border-box;
+}
+html {
+  background: var(--bg);
+}
 body {
   color: var(--ink);
-  font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
-a { color: inherit; text-decoration: none; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 .shell {
   margin: 0 auto;
@@ -28,7 +35,7 @@ a { color: inherit; text-decoration: none; }
 
 .eyebrow {
   color: var(--ink-dim);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
   margin: 0 0 14px;
@@ -36,7 +43,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 h1 {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: clamp(2.2rem, 6vw, 3.2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -69,7 +76,7 @@ h1 {
 }
 
 .tool-name {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
   color: var(--accent);
   display: block;
@@ -87,7 +94,7 @@ pre {
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--ink);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.8rem;
   line-height: 1.6;
   overflow-x: auto;
@@ -98,11 +105,15 @@ pre {
 .links {
   display: flex;
   gap: 20px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.links a { color: var(--accent); }
-.links a:hover { text-decoration: underline; }
+.links a {
+  color: var(--accent);
+}
+.links a:hover {
+  text-decoration: underline;
+}
