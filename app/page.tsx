@@ -14,7 +14,7 @@ export default function Home() {
   const [forecastLoading, setForecastLoading] = useState(false);
   const [forecastError, setForecastError] = useState<string | null>(null);
 
-  async function handleAlerts(e: FormEvent) {
+  async function handleAlerts(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setAlertsLoading(true);
     setAlertsError(null);
@@ -31,13 +31,15 @@ export default function Home() {
     }
   }
 
-  async function handleForecast(e: FormEvent) {
+  async function handleForecast(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setForecastLoading(true);
     setForecastError(null);
     setForecastText(null);
     try {
-      const res = await fetch(`/api/forecast?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`);
+      const res = await fetch(
+        `/api/forecast?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`,
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Request failed.");
       setForecastText(data.text);
@@ -53,8 +55,8 @@ export default function Home() {
       <p className="eyebrow">bennibenis-projects</p>
       <h1>US Weather</h1>
       <p className="lede">
-        Check active weather alerts and 7-day forecasts for any US location, powered by
-        the National Weather Service.
+        Check active weather alerts and 7-day forecasts for any US location,
+        powered by the National Weather Service.
       </p>
 
       <section className="panel">
@@ -98,24 +100,14 @@ export default function Home() {
         {forecastText && <pre className="result">{forecastText}</pre>}
       </section>
 
-      <section className="panel panel-dev">
-        <h2>For MCP clients</h2>
-        <p className="lede-small">
-          This app is also an MCP (Model Context Protocol) server exposing the same two
-          tools (<code>get-alerts</code>, <code>get-forecast</code>) over Streamable HTTP.
-        </p>
-        <pre>{`{
-  "mcpServers": {
-    "weather": {
-      "url": "https://weather-five-eosin-13.vercel.app/mcp"
-    }
-  }
-}`}</pre>
-      </section>
-
       <nav className="links">
-        <a href="https://github.com/bennibeni/Weather" target="_blank" rel="noreferrer">Source code</a>
-        <a href="https://links-page-bennibeni.vercel.app/" target="_blank" rel="noreferrer">&larr; All projects</a>
+        <a
+          href="https://links-page-bennibeni.vercel.app/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          &larr; All projects
+        </a>
       </nav>
     </main>
   );
