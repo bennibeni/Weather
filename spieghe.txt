@@ -1,0 +1,340 @@
+https://modelcontextprotocol.io/docs/develop/build-server#typescript
+
+My app is built as an MCP (Model Context Protocol) server — meaning it's designed to be consumed by language models/agents, not to replace a REST call in a traditional app. Additionally, the endpoint is always active on my Vercel repository.
+
+it works with:
+1. Lo script già incluso nel progetto (via SDK ufficiale)
+PS C:\Users\torre\Desktop\I miei progetti\Weather in USA (Maine)> node scripts/test-client.mjs http://localhost:3000 ME 44.61 -67.51
+
+2. MCP Inspector (tool ufficiale di debug, da terminale, senza scrivere codice)
+PS C:\Users\torre\Desktop\I miei progetti\Weather in USA (Maine)> npx @modelcontextprotocol/inspector
+Need to install the following packages:
+@modelcontextprotocol/inspector@0.22.0
+Ok to proceed? (y) y
+
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+Starting MCP inspector...
+⚙️ Proxy server listening on localhost:6277
+🔑 Session token: f62e9af242cc0f12a2bd39205b413e01ad51db2e95c6a011ad5c7b939a403682
+   Use this token to authenticate requests or set DANGEROUSLY_OMIT_AUTH=true to disable auth
+
+🚀 MCP Inspector is up and running at:
+   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=f62e9af242cc0f12a2bd39205b413e01ad51db2e95c6a011ad5c7b939a403682
+
+🌐 Opening browser...
+http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=f62e9af242cc0f12a2bd39205b413e01ad51db2e95c6a011ad5c7b939a403682
+
+server is running and proxy token is correct
+
+Configura la connessione al tuo server Weather
+Nell'interfaccia dell'Inspector, a sinistra trovi i campi di connessione:
+
+Transport Type: seleziona Streamable HTTP
+URL: inserisci l'indirizzo del tuo server, non quello dell'Inspector — es. http://localhost:3000/mcp se stai girando l'app in locale con npm run dev, oppure l'URL Vercel una volta deployato (https://<tuo-progetto>.vercel.app/mcp)
+
+3. Connect
+Premi il pulsante Connect. Se tutto va bene vedrai lo stato passare a "Connected" e apparirà un pannello Tools.
+4. Elenca e chiama i tool
+
+Clicca List Tools → dovresti vedere get-alerts e get-forecast
+Seleziona get-forecast, inserisci latitude: 44.61, longitude: -67.51 (i valori che hai impostato come default), premi Run Tool
+
+Riassunto visivo di come dovrebbe apparire il pannello:
+CampoValoreTransport 
+Transport Type Streamable HTTP
+URL (server da testare) https://weather-five-eosin-13.vercel.app/mcp 
+Address (proxy locale Inspector) http://localhost:6277 (lascialo com'è)
+
+PS C:\Users\torre\Desktop\I miei progetti\Weather in USA (Maine)> npx @modelcontextprotocol/inspector
+Starting MCP inspector...
+⚙️ Proxy server listening on localhost:6277
+🔑 Session token: c76dfd42584f9d4ad24c3e3e4aea1d34681df685026be703d48db4953c3e7587
+   Use this token to authenticate requests or set DANGEROUSLY_OMIT_AUTH=true to disable auth
+
+🚀 MCP Inspector is up and running at:
+   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=c76dfd42584f9d4ad24c3e3e4aea1d34681df685026be703d48db4953c3e7587
+
+🌐 Opening browser...
+New StreamableHttp connection request
+Query parameters: {"url":"https://weather-five-eosin-13.vercel.app/mcp","transportType":"streamable-http"}
+Created StreamableHttp client transport
+Client <-> Proxy  sessionId: d036d99b-b97c-4a03-a22f-264241d0be30
+Received POST message for sessionId d036d99b-b97c-4a03-a22f-264241d0be30
+Received GET message for sessionId d036d99b-b97c-4a03-a22f-264241d0be30
+(deve restare in esecuzione nel terminale)
+
+Ora prova il passo successivo: nel pannello dell'Inspector, vai sulla tab Tools (di solito in alto) e premi List Tools. Dovresti vedere:
+
+get-alerts
+get-forecast
+
+Poi seleziona get-forecast, inserisci i parametri:
+
+latitude: 44.61
+longitude: -67.51
+
+e premi Run Tool (o "Call Tool"). 
+
+Forecast for 44.61, -67.51:
+
+This Afternoon:
+Temperature: 67°F
+Wind: 10 mph SW
+Mostly Sunny
+---
+Tonight:
+Temperature: 54°F
+Wind: 0 to 8 mph SW
+Isolated Showers And Thunderstorms then Patchy Fog
+---
+Friday:
+Temperature: 65°F
+Wind: 3 mph SW
+Patchy Fog then Scattered Showers And Thunderstorms
+---
+Friday Night:
+Temperature: 55°F
+Wind: 0 to 5 mph W
+Isolated Rain Showers then Partly Cloudy
+---
+Saturday:
+Temperature: 71°F
+Wind: 5 mph NW
+Sunny
+---
+Saturday Night:
+Temperature: 54°F
+Wind: 3 mph NW
+Partly Cloudy
+---
+Sunday:
+Temperature: 70°F
+Wind: 5 mph E
+Sunny
+---
+Sunday Night:
+Temperature: 56°F
+Wind: 3 mph W
+Mostly Clear
+---
+Monday:
+Temperature: 74°F
+Wind: 1 to 10 mph SW
+Sunny
+---
+Monday Night:
+Temperature: 57°F
+Wind: 7 to 10 mph SW
+Partly Cloudy
+---
+Tuesday:
+Temperature: 73°F
+Wind: 8 to 13 mph SW
+Mostly Sunny then Slight Chance Rain Showers
+---
+Tuesday Night:
+Temperature: 59°F
+Wind: 8 to 12 mph SW
+Slight Chance Rain Showers
+---
+Wednesday:
+Temperature: 78°F
+Wind: 7 to 10 mph SW
+Slight Chance Rain Showers
+---
+Wednesday Night:
+Temperature: 59°F
+Wind: 2 to 8 mph W
+Slight Chance Rain Showers
+
+Quando apri l'Inspector la prima volta, il pannello a sinistra ha di default:
+
+Transport Type: STDIO
+Command: npx (o simile)
+Arguments: -y @modelcontextprotocol/server-everything (o simile, il demo di esempio)
+Devi cambiare il dropdown "Transport Type" da STDIO a Streamable HTTP. Solo quando selezioni questa opzione, i campi Command/Arguments spariscono e appare il campo URL, dove metti:
+
+https://weather-five-eosin-13.vercel.app/mcp
+Poi premi Connect.
+
+Connected
+PS C:\Users\torre\Desktop\I miei progetti\Weather in USA (Maine)> npx @modelcontextprotocol/inspector
+Starting MCP inspector...
+⚙️ Proxy server listening on localhost:6277
+🔑 Session token: c76dfd42584f9d4ad24c3e3e4aea1d34681df685026be703d48db4953c3e7587
+   Use this token to authenticate requests or set DANGEROUSLY_OMIT_AUTH=true to disable auth
+🚀 MCP Inspector is up and running at:
+   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=c76dfd42584f9d4ad24c3e3e4aea1d34681df685026be703d48db4953c3e7587
+🌐 Opening browser...
+New StreamableHttp connection request
+Query parameters: {"url":"https://weather-five-eosin-13.vercel.app/mcp","transportType":"streamable-http"}
+Created StreamableHttp client transport
+Client <-> Proxy  sessionId: d036d99b-b97c-4a03-a22f-264241d0be30
+Received POST message for sessionId d036d99b-b97c-4a03-a22f-264241d0be30
+Received GET message for sessionId d036d99b-b97c-4a03-a22f-264241d0be30
+
+Mostra altro
+Ottimo, ora funziona — il terminale conferma tutta la sequenza corretta:
+
+il proxy si è avviato regolarmente
+ha ricevuto la richiesta con l'URL giusto (https://weather-five-eosin-13.vercel.app/mcp, transportType: streamable-http)
+ha creato la sessione e ricevuto sia POST che GET → questo è esattamente l'handshake MCP che ci si aspetta (inizializzazione + stream SSE aperto)
+E l'interfaccia mostra "Connected" in alto, quindi il tuo server Weather su Vercel sta rispondendo correttamente al protocollo MCP.
+
+Ora prova il passo successivo: nel pannello dell'Inspector, vai sulla tab Tools (di solito in alto) e premi List Tools. Dovresti vedere:
+
+get-alerts
+get-forecast
+Poi seleziona get-forecast, inserisci i parametri:
+
+latitude: 44.61
+longitude: -67.51
+e premi Run Tool (o "Call Tool"). Dimmi cosa restituisce.
+
+Forecast for 44.61, -67.51:
+This Afternoon:
+Temperature: 67°F
+Wind: 10 mph SW
+Mostly Sunny
+---
+Tonight:
+Temperature: 54°F
+Wind: 0 to 8 mph SW
+Isolated Showers And Thunderstorms then Patchy Fog
+---
+Friday:
+Temperature: 65°F
+Wind: 3 mph SW
+Patchy Fog then Scattered Showers And Thunderstorms
+---
+Friday Night:
+Temperature: 55°F
+Wind: 0 to 5 mph W
+Isolated Rain Showers then Partly Cloudy
+---
+Saturday:
+Temperature: 71°F
+Wind: 5 mph NW
+Sunny
+---
+Saturday Night:
+Temperature: 54°F
+Wind: 3 mph NW
+Partly Cloudy
+---
+Sunday:
+Temperature: 70°F
+Wind: 5 mph E
+Sunny
+---
+Sunday Night:
+Temperature: 56°F
+Wind: 3 mph W
+Mostly Clear
+---
+Monday:
+Temperature: 74°F
+Wind: 1 to 10 mph SW
+Sunny
+---
+Monday Night:
+Temperature: 57°F
+Wind: 7 to 10 mph SW
+Partly Cloudy
+---
+Tuesday:
+Temperature: 73°F
+Wind: 8 to 13 mph SW
+Mostly Sunny then Slight Chance Rain Showers
+---
+Tuesday Night:
+Temperature: 59°F
+Wind: 8 to 12 mph SW
+Slight Chance Rain Showers
+---
+Wednesday:
+Temperature: 78°F
+Wind: 7 to 10 mph SW
+Slight Chance Rain Showers
+---
+Wednesday Night:
+Temperature: 59°F
+Wind: 2 to 8 mph W
+Slight Chance Rain Showers
+
+Funziona tutto perfettamente. Hai appena chiamato il tuo server MCP deployato su Vercel, direttamente dall'Inspector, senza passare da Claude Desktop o da un'app client dedicata — esattamente quello che volevi verificare.
+
+Riepilogo di cosa hai dimostrato con questo test:
+
+il server MCP (app/mcp/route.ts) risponde correttamente in produzione
+il tool get-forecast fa le due chiamate interne a api.weather.gov (points → forecast) e restituisce il testo già formattato
+le coordinate 44.61°N, -67.51°W (Maine, zona costiera) danno un forecast realistico a 7 giorni, coerente con quello che ci si aspetterebbe da quella zona in questo periodo
+Ora hai in mano due modi alternativi, oltre all'app web, per interagire col server:
+
+MCP Inspector (quello appena usato) — utile per debug/test manuali
+scripts/test-client.mjs — utile per test automatizzati/scriptati da riga di comando
+
+3. Chiamata HTTP grezza (curl/fetch), ma con più attenzione
+Tecnicamente puoi anche mandare richieste JSON-RPC dirette via curl, ma è scomodo: devi gestire tu l'handshake MCP (initialize, poi tools/list, poi tools/call), gli header giusti (Content-Type: application/json, Accept: application/json, text/event-stream), e il body in formato JSON-RPC 2.0. L'SDK (opzione 1) fa tutto questo per te — per questo è la via consigliata anche solo per "provare" il server senza un client AI vero.
+
+4. Claude Desktop (o un altro client MCP "vero") — il modo pensato per l'uso reale: non testi il server, lo usi dentro una conversazione con un assistente AI
+
+La differenza chiave del quarto modo rispetto ai primi tre: con Inspector/script/curl tu decidi quale tool chiamare e con quali parametri. 
+Con Claude Desktop è il modello a decidere, leggendo la tua domanda in linguaggio naturale ("che tempo fa in Maine?") e capendo da solo che deve chiamare get-forecast con latitude: 44.61, longitude: -67.51.
+
+Ecco come collegarlo:
+Come stanno davvero le cose ora (2026):
+claude_desktop_config.json accetta solo server stdio (comando + argomenti locali, come la tua vecchia configurazione con "command": "node"). 
+Il campo "url" che ti ho fatto scrivere è pensato per Claude Code (un altro prodotto), non per Claude Desktop — Claude Desktop lo ignora o lo scarta.
+La via corretta per server remoti in Claude Desktop: Connettori personalizzati (UI), non il file JSON
+
+In dettaglio:
+Apri Claude Desktop
+Vai su Settings → Connectors (potrebbe chiamarsi "Integrations" a seconda della versione)
+Cerca un'opzione tipo "Add custom connector"
+Inserisci l'URL del tuo server:
+
+   https://weather-five-eosin-13.vercel.app/mcp
+
+Salva — non serve editare file, non serve riavviare manualmente il processo come con la config JSON
+
+Ripristina la vecchia config JSON
+Nel frattempo, rimetti la configurazione stdio originale che avevi (quella con "command": "node") se stai ancora usando quel server locale per altro — altrimenti lasciala vuota se usi solo il connettore remoto via UI.
+Vuoi che ti dia una mano a verificare esattamente dove si trova quella voce di menu, dato che le versioni di Claude Desktop possono differire leggermente? Fammi sapere cosa vedi in Settings e ti guido passo passo.
+
+l percorso corretto per la versione attuale di Claude Desktop è:
+1. Vai su Settings → Customize (non "Connectors" direttamente — è dentro "Customize")
+2. Sezione "Connectors"
+Troverai la lista dei connettori disponibili (Google Drive, Slack, ecc.)
+3. Clicca il pulsante "+" accanto a "Connectors"
+4. Seleziona "Add custom connector"
+5. Compila il form:
+
+Name: weather (o "Weather Maine")
+URL:
+
+  https://weather-five-eosin-13.vercel.app/mcp
+
+Lascia vuoto "Advanced settings" (OAuth Client ID/Secret) — il tuo server non li richiede
+
+6. Clicca "Add"
+Un dettaglio tecnico importante da sapere: con questo metodo, Claude si collega al tuo server dall'infrastruttura cloud di Anthropic, non dal tuo PC. Quindi il server deve essere raggiungibile pubblicamente da internet — cosa che è già vera nel tuo caso, dato che è su Vercel con dominio pubblico. Se fosse stato localhost, non avrebbe funzionato con questo metodo (serve tunneling tipo ngrok).
+7. Abilitalo nella chat
+Clicca il bottone "+" in basso a sinistra nella finestra di chat → "Add connectors" → attiva il toggle per "weather".
+Prova poi a scrivere: "Che tempo fa a 44.61°N, 67.51°W?"
+
+7. Attivalo nella chat
+Ricordati di attivarlo per questa (o le prossime) conversazioni tramite il "+" in basso a sinistra → "Add connectors".
+
+Ricorda: c'è una differenza tra:
+Connesso (a livello di account — quello che mi hai appena mostrato: sì, è collegato)
+Abilitato per questa conversazione (va attivato chat per chat)
+Per attivarlo nella conversazione:
+Clicca il pulsante "+" in basso a sinistra nella casella di testo della chat
+Seleziona "Add connectors" (o "Connettori")
+Trova "Weather at Anya's" nella lista e attiva il toggle
+
+Here's an artifact that queries "Weather at Anya's" through the MCP connector and shows the result
+
