@@ -1,0 +1,15 @@
+select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  min-width: 160px;
+  padding: 10px 12px;
+}
+
+select:focus {
+  border-color: var(--accent);
+  outline: 1px solid var(--accent);
+}
