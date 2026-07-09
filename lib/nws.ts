@@ -45,11 +45,17 @@ export class NwsApiError extends Error {
 }
 
 export function getNwsApiBase(): string {
-  return (process.env.NWS_API_BASE ?? "https://api.weather.gov").replace(/\/$/, "");
+  return (process.env.NWS_API_BASE ?? "https://api.weather.gov").replace(
+    /\/$/,
+    "",
+  );
 }
 
 export function getUserAgent(): string {
-  return process.env.NWS_USER_AGENT ?? "weather-mcp-vercel/1.0 (+https://api.weather.gov)";
+  return (
+    process.env.NWS_USER_AGENT ??
+    "weather-mcp-vercel/1.0 (+https://api.weather.gov)"
+  );
 }
 
 export async function fetchJson<T>(url: string): Promise<T> {
@@ -61,7 +67,11 @@ export async function fetchJson<T>(url: string): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new NwsApiError(`NWS request failed with HTTP ${response.status}`, response.status, url);
+    throw new NwsApiError(
+      `NWS request failed with HTTP ${response.status}`,
+      response.status,
+      url,
+    );
   }
 
   return (await response.json()) as T;
@@ -70,7 +80,9 @@ export async function fetchJson<T>(url: string): Promise<T> {
 export function normalizeStateCode(state: string): string {
   const normalized = state.trim().toUpperCase();
   if (!/^[A-Z]{2}$/.test(normalized)) {
-    throw new Error("State must be a two-letter US state or territory code, for example CA or NY.");
+    throw new Error(
+      "State must be a two-letter US state or territory code, for example CA or NY.",
+    );
   }
   return normalized;
 }
@@ -87,9 +99,10 @@ export function formatAlert(feature: AlertFeature): string {
 }
 
 export function formatForecastPeriod(period: ForecastPeriod): string {
-  const temperature = period.temperature === undefined
-    ? "Unknown"
-    : `${period.temperature}°${period.temperatureUnit ?? "F"}`;
+  const temperature =
+    period.temperature === undefined
+      ? "Unknown"
+      : `${period.temperature}°${period.temperatureUnit ?? "F"}`;
 
   return [
     `${period.name ?? "Unknown"}:`,
@@ -101,7 +114,7 @@ export function formatForecastPeriod(period: ForecastPeriod): string {
 
 export async function getAlertsText(state: string): Promise<string> {
   const stateCode = normalizeStateCode(state);
-  const url = `${getNwsApiBase()}/alerts?area=${encodeURIComponent(stateCode)}`;
+  const url = `${getNwsApiBase()}/alerts/active?area=${encodeURIComponent(stateCode)}`;
   const data = await fetchJson<AlertsResponse>(url);
   const features = data.features ?? [];
 
@@ -112,13 +125,20 @@ export async function getAlertsText(state: string): Promise<string> {
   return `Active alerts for ${stateCode}:\n\n${features.map(formatAlert).join("\n---\n")}`;
 }
 
-export async function getForecastText(latitude: number, longitude: number): Promise<string> {
+export async function getForecastText(
+  latitude: number,
+  longitude: number,
+): Promise<string> {
   const pointsUrl = `${getNwsApiBase()}/points/${latitude.toFixed(4)},${longitude.toFixed(4)}`;
   const points = await fetchJson<PointsResponse>(pointsUrl);
   const forecastUrl = points.properties?.forecast;
 
   if (!forecastUrl) {
-    throw new NwsApiError("NWS points response did not include a forecast URL.", undefined, pointsUrl);
+    throw new NwsApiError(
+      "NWS points response did not include a forecast URL.",
+      undefined,
+      pointsUrl,
+    );
   }
 
   const forecast = await fetchJson<ForecastResponse>(forecastUrl);
