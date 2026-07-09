@@ -1,16 +1,11 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Weather MCP Server",
-  description:
-    "MCP server exposing US weather alerts and forecasts (National Weather Service) over Streamable HTTP.",
+  title: "US Weather",
+  description: "Check US weather alerts and forecasts, powered by the National Weather Service. Also available as an MCP server.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>{children}</body>
