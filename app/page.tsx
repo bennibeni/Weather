@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { CITIES_BY_STATE, type CityOption } from "../lib/cities";
@@ -19,6 +19,7 @@ const EXTRA_LOCATIONS: AskLocation[] = [
   { state: "ME", name: "Acadia National Park", lat: 44.3386, lon: -68.2733 },
   { state: "ME", name: "Camden", lat: 44.2098, lon: -69.0648 },
   { state: "ME", name: "Rockland", lat: 44.1037, lon: -69.1089 },
+  { state: "ME", name: "Machias", lat: 44.7148, lon: -67.4652 },
 ];
 
 const WEEKDAYS = [
@@ -218,7 +219,7 @@ export default function Home() {
   const [forecastText, setForecastText] = useState<string | null>(null);
   const [forecastLoading, setForecastLoading] = useState(false);
   const [forecastError, setForecastError] = useState<string | null>(null);
-  const [question, setQuestion] = useState("Lohnt es sich morgen in Bar Harbor rauszugehen?");
+  const [question, setQuestion] = useState("Lohnt es sich morgen in Machias rauszugehen?");
   const [answerText, setAnswerText] = useState<string | null>(null);
   const [answerLoading, setAnswerLoading] = useState(false);
   const [answerError, setAnswerError] = useState<string | null>(null);
@@ -321,7 +322,7 @@ export default function Home() {
           <input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Lohnt es sich morgen in Bar Harbor rauszugehen?"
+            placeholder="Lohnt es sich morgen in Machias rauszugehen?"
             aria-label="Weather question"
           />
           <button type="submit" disabled={answerLoading}>
@@ -397,6 +398,3 @@ export default function Home() {
     </main>
   );
 }
-
-
-
